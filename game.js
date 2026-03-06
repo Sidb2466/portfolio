@@ -51,10 +51,10 @@ function moveTo(pos) {
         if (mario_x === -195) mario_x = 0;
     }
     if (scroll_x < -WORLD_WIDTH) {
-        scroll_x = $(window).width();
+    scroll_x = $(window).width();
     }
     else if (scroll_x > $(window).width()) {
-        scroll_x = -WORLD_WIDTH;
+    scroll_x = -WORLD_WIDTH;
     }
     $('#scroll').css('left', scroll_x + 'px');
     $('#floor').css('background-position-x', floor_x + 'px');
@@ -126,14 +126,7 @@ function jump() {
     boxHitThisJump = false;
     jumpSound.currentTime = 0;
     jumpSound.play();
-
-    // Scale jump to screen height so Mario always reaches boxes on any laptop
-    const vh = window.innerHeight;
-    let velocity = vh < 600 ? 20
-                 : vh < 700 ? 18
-                 : vh < 900 ? 16
-                 : 14;
-
+    let velocity = window.innerHeight < 700 ? 18 : 14;
     let gravity = 1;
     let position = 0;
     let maxJump = Infinity;
@@ -169,50 +162,55 @@ function jump() {
 }
 
 function checkPoleHit() {
-    const pole = document.getElementById('end-pole');
-    if (!pole) return;
-    if (direction !== 'right') return;
-    const mario = document.getElementById('mario');
-    const m = mario.getBoundingClientRect();
-    const p = pole.getBoundingClientRect();
-    const hitFromRight =
-        m.left <= p.right &&    
-        m.right > p.left &&
-        m.bottom > p.top &&
-        m.top < p.bottom;
-    if (hitFromRight) finishLevel();
+  const pole = document.getElementById('end-pole');
+  if (!pole) return;
+  if (direction !== 'right') return;
+  const mario = document.getElementById('mario');
+  const m = mario.getBoundingClientRect();
+  const p = pole.getBoundingClientRect();
+  const hitFromRight =
+    m.left <= p.right &&    
+    m.right > p.left &&
+    m.bottom > p.top &&
+    m.top < p.bottom;
+  if (hitFromRight) finishLevel();
 }
 
 let flagActive = false;
 
 function finishLevel() {
-    if (flagActive) return;
-    flagActive = true;
-    flagSound.currentTime = 0;
-    flagSound.play();
-    const flag = document.querySelector('#end-pole .flag');
-    if (!flag) return;
-    flag.style.transition = 'top 0.6s';
-    flag.style.top = '400px';
-    setTimeout(() => {
-        flag.style.transition = 'none';
-        flag.style.top = '0px';
-        flagActive = false;
-    }, 1200);
+  if (flagActive) return;
+  flagActive = true;
+  flagSound.currentTime = 0;
+  flagSound.play();
+  const flag = document.querySelector('#end-pole .flag');
+  if (!flag) return;
+  flag.style.transition = 'top 0.6s';
+  flag.style.top = '400px';
+  setTimeout(() => {
+    flag.style.transition = 'none';
+    flag.style.top = '0px';
+    flagActive = false;
+  }, 1200);
 }
 
 function randomizeHitMePositions() {
     document.querySelectorAll('.box:not(.revealed)').forEach(box => {
         const placeholder = box.querySelector('.box-placeholder');
         if (!placeholder) return;
+
         const boxWidth = box.clientWidth;
         const boxHeight = box.clientHeight;
+
         const textWidth = placeholder.offsetWidth;
         const textHeight = placeholder.offsetHeight;
+
         const maxX = boxWidth - textWidth;
         const maxY = boxHeight - textHeight;
+
         const x = Math.random() * maxX;
         const y = Math.random() * maxY;
+
         placeholder.style.transform = `translate(${x}px, ${y}px)`;
     });
 }
@@ -221,59 +219,60 @@ $(function () {
     setInterval(randomizeHitMePositions, 900);
     $('body').attr('tabindex', '-1').focus();
     $("body").keydown(function (e) {
-        if (e.key === 'ArrowLeft') {
-            direction = 'left';
-            renderMario(0);
-            moveLeft();
-        }
-        else if (e.key === 'ArrowRight') {
-            direction = 'right';
-            renderMario(0);
-            moveRight();
-        }
-        else if (e.key === ' ' || e.key === 'ArrowUp') {
-            jump();
-        }
-    });
-    $("body").keyup(function (e) {
-        if (e.keyCode == 37 || e.keyCode == 39) {
-            stopMove();
-        }
-    });
-    $('#btn_left').on('mousedown touchstart', function () {
+    if (e.key === 'ArrowLeft') {
         direction = 'left';
         renderMario(0);
         moveLeft();
-    });
-    $('#btn_right').on('mousedown touchstart', function () {
+    }
+    else if (e.key === 'ArrowRight') {
         direction = 'right';
         renderMario(0);
         moveRight();
+    }
+    else if (e.key === ' ' || e.key === 'ArrowUp') {
+        jump();
+    }
+    });
+    $("body").keyup(function (e) {
+    if (e.keyCode == 37 || e.keyCode == 39) {
+        stopMove();
+    }
+    });
+    $('#btn_left').on('mousedown touchstart', function () {
+    direction = 'left';
+    renderMario(0);
+    moveLeft();
+    });
+    $('#btn_right').on('mousedown touchstart', function () {
+    direction = 'right';
+    renderMario(0);
+    moveRight();
     });
     $('#btn_up').on('mousedown touchstart', function () {
-        jump();
+    jump();
     });
     $('#btn_left, #btn_right').on('mouseup touchend', function () {
         stopMove();
     });
     $('#music-btn').on('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const music = document.getElementById("bg_music");
-        if (music_play) {
-            music.pause();
-            music_play = false;
-            $(this).text('Music: OFF');
-        } else {
-            music.volume = 0.4;
-            music.play();
-            music_play = true;
-            $(this).text('Music: ON');
-        }
-    });
+    e.preventDefault();
+    e.stopPropagation();
+    const music = document.getElementById("bg_music");
+    if (music_play) {
+        music.pause();
+        music_play = false;
+        $(this).text('Music: OFF');
+    } else {
+        music.volume = 0.4;
+        music.play();
+        music_play = true;
+        $(this).text('Music: ON');
+    }
     $(document).on('keydown', function (e) {
-        if (e.code === 'Space') {
-            e.preventDefault();
-        }
+    if (e.code === 'Space') {
+        e.preventDefault();
+    }
     });
+    
+});
 });
