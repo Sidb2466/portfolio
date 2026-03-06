@@ -192,3 +192,46 @@ b { margin-bottom: 15px; font-size: 30px; }
   border-radius: 50%;
   box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.4);
 }
+
+#rotate-msg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #6B88FF;
+    color: white;
+    font-family: 'VT323', monospace;
+    font-size: 30px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 999999;
+    padding: 20px;
+}
+
+#rotate-msg span {
+    font-size: 80px;
+    display: block;
+    animation: spin 2s linear infinite;
+}
+
+#rotate-msg p {
+    display: block;
+    margin-top: 20px;
+}
+
+@keyframes spin {
+    0%   { transform: rotate(0deg); }
+    25%  { transform: rotate(-30deg); }
+    75%  { transform: rotate(30deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    #rotate-msg {
+        display: flex !important;
+    }
+}
