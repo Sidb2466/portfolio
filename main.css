@@ -193,6 +193,7 @@ b{margin-bottom: 15px;font-size:30px;}
 
     #mario {
         bottom: 70px !important;
+        /* DO NOT touch width, height or background-size — causes flicker */
     }
 
     #scroll {
@@ -205,10 +206,17 @@ b{margin-bottom: 15px;font-size:30px;}
     }
 
     .box {
-        margin-top: -80px !important;
-        margin-left: 50px !important;
+        top: 50% !important;
+        margin-top: -140px !important;  /* puts box top at ~47px, bottom at ~147px — reachable */
         width: 150px !important;
+        min-height: 100px !important;
         padding: 10px !important;
+        margin-left: 50px !important;
+    }
+
+    b {
+        font-size: 16px !important;
+        margin-bottom: 4px !important;
     }
 
     .box span,
