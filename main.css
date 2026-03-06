@@ -187,12 +187,12 @@ b{margin-bottom: 15px;font-size:30px;}
 
 @media (max-height: 500px) and (orientation: landscape) {
     .box {
-    margin-top: -80px !important;  /* reduce from -120px */
-    top: 45% !important;           /* change from 40% */
-    width: 140px !important;
-    min-height: 100px !important;
-    padding: 8px !important;
-}
+        margin-top: -80px !important;
+        top: 45% !important;
+        width: 140px !important;
+        min-height: 100px !important;
+        padding: 8px !important;
+    }
 
     b {
         font-size: 14px !important;
@@ -208,15 +208,21 @@ b{margin-bottom: 15px;font-size:30px;}
         height: 60px !important;
     }
 
-#mario {
-    bottom: 60px !important;
-    width: 30px !important;
-    height: 59px !important;
-    background-size: 90px auto !important;
+    #mario {
+        bottom: 60px !important;
+        width: 30px !important;
+        height: 59px !important;
+        background-size: 90px auto !important;
+    }
 
     #scroll {
         bottom: 60px !important;
     }
+
+    #end-pole {
+        height: 300px !important;
+    }
+}
 
     #end-pole {
         height: 300px !important;
