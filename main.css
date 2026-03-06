@@ -152,14 +152,17 @@ b{margin-bottom: 15px;font-size:30px;}
 .hidden {
   display: none;
 }
+
 .box-placeholder {
   text-align: center;
   font-size: 28px;
   opacity: 0.8;
 }
+
 .box.revealed .box-placeholder {
   display: none;
 }
+
 .box.revealed .box-content {
   display: block;
 }
@@ -167,6 +170,7 @@ b{margin-bottom: 15px;font-size:30px;}
 .box {
   position: relative;
 }
+
 .box-placeholder {
   position: absolute;
   top: 0;
@@ -181,3 +185,31 @@ b{margin-bottom: 15px;font-size:30px;}
   transition: transform 0.4s ease; 
 }
 
+@media (max-height: 500px) and (orientation: landscape) {
+    .box {
+        margin-top: -100px !important;
+        width: 140px !important;
+        min-height: 80px !important;
+        padding: 8px !important;
+    }
+
+    b {
+        font-size: 14px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .box span,
+    .box-content span {
+        font-size: 11px !important;
+    }
+
+    #floor {
+        height: 70px !important;
+    }
+
+    #mario {
+        bottom: 70px !important;
+        width: 35px !important;
+        height: 70px !important;
+    }
+}
