@@ -232,7 +232,7 @@ function positionBoxesLandscape() {
     const boxes = document.querySelectorAll('.box');
     let xPos = 80;
     const yPos = window.innerHeight * 0.08;
-    const boxHeight = window.innerHeight * 0.58;
+    const boxHeight = window.innerHeight - 70 - yPos - 20;
 
     boxes.forEach(box => {
         box.style.position = 'absolute';
