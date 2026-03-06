@@ -186,23 +186,6 @@ b{margin-bottom: 15px;font-size:30px;}
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
-    .box {
-        margin-top: -80px !important;
-        top: 45% !important;
-        width: 140px !important;
-        min-height: 100px !important;
-        padding: 8px !important;
-    }
-
-    b {
-        font-size: 14px !important;
-        margin-bottom: 4px !important;
-    }
-
-    .box span,
-    .box-content span {
-        font-size: 11px !important;
-    }
 
     #floor {
         height: 60px !important;
@@ -210,9 +193,9 @@ b{margin-bottom: 15px;font-size:30px;}
 
     #mario {
         bottom: 60px !important;
-        width: 30px !important;
-        height: 59px !important;
-        background-size: 90px auto !important;
+        width: 65px !important;
+        height: 129px !important;
+        background-size: auto !important;
     }
 
     #scroll {
@@ -220,11 +203,30 @@ b{margin-bottom: 15px;font-size:30px;}
     }
 
     #end-pole {
-        height: 300px !important;
+        height: 420px !important;
+        bottom: 60px !important;
     }
-}
 
-    #end-pole {
-        height: 300px !important;
+    .box {
+        top: 30% !important;
+        margin-top: 0 !important;
+        width: 150px !important;
+        min-height: 100px !important;
+        padding: 10px !important;
+        margin-left: 60px !important;
+    }
+
+    b {
+        font-size: 16px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .box span,
+    .box-content span {
+        font-size: 12px !important;
+    }
+
+    .box-placeholder {
+        font-size: 30px !important;
     }
 }
