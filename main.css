@@ -193,4 +193,11 @@ b{margin-bottom: 15px;font-size:30px;}
     b { font-size: 16px !important; margin-bottom: 4px !important; }
     .box span, .box-content span { font-size: 12px !important; }
     .box-placeholder { font-size: 28px !important; }
+
+    .box {
+        min-height: 0 !important;
+        height: auto !important;
+        max-height: 220px !important;
+        overflow-y: auto !important;
+    }
 }
