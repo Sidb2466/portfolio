@@ -220,7 +220,8 @@ function positionBoxesLandscape() {
     
     const boxes = document.querySelectorAll('.box');
     let xPos = 80;
-    const yPos = window.innerHeight * 0.15;
+    const yPos = window.innerHeight * 0.08;
+    const boxHeight = window.innerHeight * 0.55;
     
     boxes.forEach(box => {
         box.style.position = 'absolute';
@@ -229,11 +230,14 @@ function positionBoxesLandscape() {
         box.style.left = xPos + 'px';
         box.style.marginTop = '0';
         box.style.width = '150px';
+        box.style.minHeight = '0';
+        box.style.height = boxHeight + 'px';
+        box.style.maxHeight = boxHeight + 'px';
+        box.style.overflowY = 'auto';
         box.style.padding = '10px';
         xPos += 220;
     });
 }
-
 positionBoxesLandscape();
 window.addEventListener('resize', positionBoxesLandscape);
 window.addEventListener('orientationchange', () => {
