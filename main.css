@@ -201,7 +201,7 @@ b{margin-bottom: 15px;font-size:30px;}
 
     #end-pole {
         height: 380px;
-        bottom: 50px;
+        bottom: 0px;
     }
 
     .box {
