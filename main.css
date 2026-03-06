@@ -188,61 +188,41 @@ b{margin-bottom: 15px;font-size:30px;}
 @media (max-height: 500px) and (orientation: landscape) {
 
     #floor {
-        height: 70px !important;
+        height: 70px;
     }
 
     #mario {
-        bottom: 70px !important;
+        bottom: 50px;
     }
 
     #scroll {
-        bottom: 70px !important;
+        bottom: 70px;
     }
 
     #end-pole {
-        height: 380px !important;
-        bottom: 70px !important;
+        height: 380px;
+        bottom: 50px;
     }
 
     .box {
-        margin-top: -80px !important;
-        margin-left: 50px !important;
-        width: 150px !important;
-        padding: 10px !important;
+        margin-top: -80px;
+        margin-left: 50px;
+        width: 150px;
+        padding: 10px;
     }
 
     .box span,
     .box-content span {
-        font-size: 12px !important;
+        font-size: 12px;
     }
 
     .box-placeholder {
-        font-size: 28px !important;
+        font-size: 28px;
     }
 }
 
     .box-placeholder {
-        font-size: 28px !important;
+        font-size: 28px;
     }
-}
-#rotate-msg {
-    display: none;
 }
 
-@media (max-height: 500px) and (orientation: landscape) {
-    #rotate-msg {
-        display: flex;
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: #6B88FF;
-        color: white;
-        font-family: 'VT323', monospace;
-        font-size: 30px;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        z-index: 99999;
-        padding: 20px;
-    }
-}
