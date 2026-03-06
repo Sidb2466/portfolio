@@ -215,6 +215,31 @@ function randomizeHitMePositions() {
     });
 }
 
+function positionBoxesLandscape() {
+    if (window.innerHeight > 500 || window.innerWidth < window.innerHeight) return;
+    
+    const boxes = document.querySelectorAll('.box');
+    let xPos = 80;
+    const yPos = window.innerHeight * 0.15;
+    
+    boxes.forEach(box => {
+        box.style.position = 'absolute';
+        box.style.float = 'none';
+        box.style.top = yPos + 'px';
+        box.style.left = xPos + 'px';
+        box.style.marginTop = '0';
+        box.style.width = '150px';
+        box.style.padding = '10px';
+        xPos += 220;
+    });
+}
+
+positionBoxesLandscape();
+window.addEventListener('resize', positionBoxesLandscape);
+window.addEventListener('orientationchange', () => {
+    setTimeout(positionBoxesLandscape, 300);
+});
+
 $(function () {
     setInterval(randomizeHitMePositions, 900);
     $('body').attr('tabindex', '-1').focus();
