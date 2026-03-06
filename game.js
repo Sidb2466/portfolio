@@ -234,6 +234,57 @@ function finishLevel() {
     }, 1200);
 }
 
+function positionElements() {
+    const vh = window.innerHeight;
+    const vw = window.innerWidth;
+    const isPortrait = vw < vh;
+    const isLandscapePhone = vh < 500 && vw > vh;
+
+    // Portrait phone — reset everything, let CSS handle it
+    if (isPortrait) {
+        document.querySelectorAll('.box').forEach(box => {
+            box.style.position  = '';
+            box.style.float     = '';
+            box.style.top       = '';
+            box.style.left      = '';
+            box.style.marginTop = '';
+            box.style.width     = '';
+            box.style.minHeight = '';
+            box.style.height    = '';
+            box.style.maxHeight = '';
+            box.style.overflowY = '';
+            box.style.padding   = '';
+        });
+        document.getElementById('end-pole').style.height = '';
+        return;
+    }
+
+    // Landscape phone — rotate message is shown, do nothing
+    if (isLandscapePhone) return;
+
+    // Desktop/laptop — calculate positions dynamically
+    const floorH = 106;
+    const marioTop = vh - floorH - 129;
+    const jumpReach = vh < 600 ? 160 : vh < 700 ? 150 : vh < 900 ? 130 : 120;
+    const boxBottom = marioTop - jumpReach + 30;
+    const boxHeight = Math.max(150, boxBottom - 40);
+    const boxTop    = boxBottom - boxHeight;
+
+    document.querySelectorAll('.box').forEach(box => {
+        box.style.position  = 'absolute';
+        box.style.float     = 'none';
+        box.style.top       = boxTop + 'px';
+        box.style.marginTop = '0';
+        box.style.height    = boxHeight + 'px';
+        box.style.minHeight = boxHeight + 'px';
+        box.style.maxHeight = boxHeight + 'px';
+        box.style.overflowY = 'auto';
+        box.style.width     = '280px';
+    });
+
+    const pole = document.getElementById('end-pole');
+    if (pole) pole.style.height = (vh - floorH - 20) + 'px';
+}
 /* ── HIT ME ANIMATION ── */
 const randomizeInterval = setInterval(() => {
     const unrevealed = document.querySelectorAll('.box:not(.revealed)');
