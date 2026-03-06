@@ -57,15 +57,8 @@ b { margin-bottom: 15px; font-size: 30px; }
   border-radius: 12px;
   padding: 20px;
   margin-left: 100px;
-
-  /* Position box so its bottom is always within Mario's jump reach */
-  /* Mario stands at 106px floor, jumps ~200px up                   */
-  /* Box bottom should be ~150-180px from bottom of viewport         */
-  bottom: auto;
-  top: auto;
-  margin-top: 0;
-
-  /* Dynamic positioning via JS — fallback for non-JS */
+  top: 50%;              /* ← RESTORED */
+  margin-top: -200px;    /* ← RESTORED */
   width: 280px;
   min-height: 200px;
   overflow: visible;
