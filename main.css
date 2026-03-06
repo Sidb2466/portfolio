@@ -198,7 +198,9 @@ b{margin-bottom: 15px;font-size:30px;}
     #scroll {
         bottom: 70px !important;
         width: 2200px !important;
-        overflow: visible !important;
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+        clip: auto !important;
     }
 
     #end-pole {
@@ -214,6 +216,7 @@ b{margin-bottom: 15px;font-size:30px;}
         padding: 10px !important;
         margin-left: 50px !important;
         overflow: visible !important;
+        z-index: 100 !important;
     }
 
     b {
@@ -226,6 +229,10 @@ b{margin-bottom: 15px;font-size:30px;}
         font-size: 12px !important;
     }
 
+    .box-placeholder {
+        font-size: 28px !important;
+    }
+}
     .box-placeholder {
         font-size: 28px !important;
     }
