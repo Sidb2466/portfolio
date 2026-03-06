@@ -1,29 +1,43 @@
-body{overflow-x: hidden;
+/*
+  This project is inspired by and partially based on
+  "Mario Bros Resume" by Miquel Camps
+  https://vivirenremoto.github.io/mariocv/
+*/
+
+body {
+  overflow-x: hidden;
   font-family: 'VT323', monospace;
   font-size: 20px;
-  background: #6B88FF;}
+  background: #6B88FF;
+}
 
-b, span{display: block;}
-b{margin-bottom: 15px;font-size:30px;}
+b, span { display: block; }
+b { margin-bottom: 15px; font-size: 30px; }
 
-#floor{position: absolute;
+#floor {
+  position: absolute;
   background: url('public/img/floor.png');
   bottom: 0;
   width: 100%;
   left: 0;
-  height: 106px;}
+  height: 106px;
+}
 
-#scroll{image-rendering: crisp-edges;
+#scroll {
+  image-rendering: crisp-edges;
   position: fixed;
   top: 0;
   bottom: 106px;
-  width: 3125px;
+  width: 4000px;
   background: url('public/img/background.png');
   background-position: left bottom;
   background-repeat: no-repeat;
-  background-size: auto 100%;}
-  
-#mario{background-image: url('public/img/mario.png');
+  background-size: auto 100%;
+  overflow: visible;
+}
+
+#mario {
+  background-image: url('public/img/mario.png');
   background-position: top left;
   background-repeat: no-repeat;
   position: fixed;
@@ -33,25 +47,60 @@ b{margin-bottom: 15px;font-size:30px;}
   margin-left: -30px;
   width: 65px;
   height: 129px;
-  background-blend-mode: color;}
+}
 
-.box{position: relative;
-  min-height: 270px;
+/* Boxes scale with viewport height so they're always reachable */
+.box {
+  position: relative;
   float: left;
-  background: #F7C400;               
-  border-radius: 6px; 
+  background: #F7C400;
+  border-radius: 12px;
   padding: 20px;
   margin-left: 100px;
-  top: 50%;
-  margin-top: -200px;
-  width: 300px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow:  inset -4px -4px 0 rgba(0,0,0,0.18),inset 4px 4px 0 rgba(255,255,255,0.28);}
+
+  /* Position box so its bottom is always within Mario's jump reach */
+  /* Mario stands at 106px floor, jumps ~200px up                   */
+  /* Box bottom should be ~150-180px from bottom of viewport         */
+  bottom: auto;
+  top: auto;
+  margin-top: 0;
+
+  /* Dynamic positioning via JS — fallback for non-JS */
+  width: 280px;
+  min-height: 200px;
+  overflow: visible;
+  box-shadow: inset -4px -4px 0 rgba(0,0,0,0.18), inset 4px 4px 0 rgba(255,255,255,0.28);
+}
+
+.box-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  font-size: clamp(32px, 3.5vw, 55px);
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 0.4s ease;
+}
+
+.hidden { display: none; }
+
+.box.revealed .box-placeholder { display: none; }
+.box.revealed .box-content { display: block; }
+.box.revealed { overflow-y: auto; }
+
+@keyframes box-bounce {
+  0%   { transform: translateY(0px); }
+  30%  { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+.box.hit { animation: box-bounce 0.25s ease-out; }
 
 #btn_left,
 #btn_right,
-#btn_up{position: fixed;
+#btn_up {
+  position: fixed;
   width: 64px;
   height: 64px;
   font-size: 48px;
@@ -63,33 +112,32 @@ b{margin-bottom: 15px;font-size:30px;}
   cursor: pointer;
   z-index: 10000;
   user-select: none;
-  box-shadow:  inset -3px -3px 0 rgba(0,0,0,0.18),inset 4px 4px 0 rgba(255,255,255,0.28);}
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.18), inset 4px 4px 0 rgba(255,255,255,0.28);
+}
 
-#btn_left svg,
-#btn_right svg,
-#btn_up svg{width: 50px;
+#btn_left svg, #btn_right svg, #btn_up svg {
+  width: 50px;
   height: 50px;
-  fill: rgb(255, 255, 255);}
+  fill: rgb(255, 255, 255);
+}
 
-#btn_left{left: 20px;
-  bottom: 20px;}
-
-#btn_right{left: 100px;
-  bottom: 20px;}
-
-#btn_up{left: 60px;     
-  bottom: 100px;}
+#btn_left  { left: 20px;  bottom: 20px; }
+#btn_right { left: 100px; bottom: 20px; }
+#btn_up    { left: 60px;  bottom: 100px; }
 
 #btn_left:active,
 #btn_right:active,
-#btn_up:active{transform: translateY(2px);
-  background: #000;}
+#btn_up:active {
+  transform: translateY(2px);
+  background: #000;
+}
 
-#music-btn{position: fixed;
+#music-btn {
+  position: fixed;
   top: 15px;
   right: 20px;
   z-index: 10000;
-  font-family: 'VT323',monospace;
+  font-family: 'VT323', monospace;
   font-size: 22px;
   background: orange;
   color: white;
@@ -97,119 +145,50 @@ b{margin-bottom: 15px;font-size:30px;}
   padding: 8px 14px;
   cursor: pointer;
   border-radius: 8px;
-  box-shadow:  inset -4px -4px 0 rgba(0,0,0,0.18),inset 4px 4px 0 rgba(255,255,255,0.28);}
+  outline: none;
+  box-shadow: inset -4px -4px 0 rgba(0,0,0,0.18), inset 4px 4px 0 rgba(255,255,255,0.28);
+}
 
-#music-btn {outline: none;}
-
-@keyframes box-bounce {
-  0%   { top: 50%; }
-  30%  { top: calc(50% - 20px); }
-  100% { top: 50%; }}
-
-.box.hit{animation: box-bounce 0.25s ease-out;}
-
-#end-pole{position: absolute;
+#end-pole {
+  position: absolute;
   bottom: 0px;
-  left:3300px; 
+  left: 3600px;
   width: 40px;
-  height: 560px;
-  z-index: 200;}
+  z-index: 200;
+}
 
-#end-pole .pole{position: absolute;
+#end-pole .pole {
+  position: absolute;
   left: 50%;
   transform: translateX(-100%);
   width: 12px;
   height: 100%;
   background: #eee;
   border-radius: 3px;
-    box-shadow:
-    inset -5px -5px 0 rgba(0,0,0,0.2),
-    inset 5px 5px 0 rgba(255,255,255,0.4);}
+  box-shadow: inset -5px -5px 0 rgba(0,0,0,0.2), inset 5px 5px 0 rgba(255,255,255,0.4);
+}
 
-#end-pole .flag{position: absolute;
+#end-pole .flag {
+  position: absolute;
   top: 0;
   left: 14px;
   width: 0;
   height: 0;
-  background: none; 
+  background: none;
   border-top: 0px solid transparent;
   border-bottom: 80px solid transparent;
   border-left: 120px solid #e60000;
-  transition: top 0.6s ease;}
+  transition: top 0.6s ease;
+}
 
-#end-pole .pole-cap{position: absolute;
-  top: -15px;                
+#end-pole .pole-cap {
+  position: absolute;
+  top: -15px;
   left: 36%;
   transform: translateX(-50%);
   width: 20px;
   height: 20px;
   background: #eee;
   border-radius: 50%;
-  box-shadow:
-    inset -2px -2px 0 rgba(0,0,0,0.2),
-    inset 2px 2px 0 rgba(255,255,255,0.4);}
-
-.hidden {
-  display: none;
-}
-
-.box-placeholder {
-  text-align: center;
-  font-size: 28px;
-  opacity: 0.8;
-}
-
-.box.revealed .box-placeholder {
-  display: none;
-}
-
-.box.revealed .box-content {
-  display: block;
-}
-
-.box {
-  position: relative;
-}
-
-.box-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  transition: transform 0.4s ease;
-  font-size: 55px;
-  color: #000;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  pointer-events: none;
-  transition: transform 0.4s ease; 
-}
-
-@media (max-height: 500px) and (orientation: landscape) {
-    .box {
-        margin-top: -100px !important;
-        width: 140px !important;
-        min-height: 80px !important;
-        padding: 8px !important;
-    }
-
-    b {
-        font-size: 14px !important;
-        margin-bottom: 4px !important;
-    }
-
-    .box span,
-    .box-content span {
-        font-size: 11px !important;
-    }
-
-    #floor {
-        height: 70px !important;
-    }
-
-    #mario {
-        bottom: 70px !important;
-        width: 35px !important;
-        height: 70px !important;
-    }
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.4);
 }
