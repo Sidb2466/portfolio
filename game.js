@@ -32,29 +32,46 @@ if (ismobile) scroll_x -= 170;
 else scroll_x -= 240;
 $('#scroll').css('left', scroll_x + 'px');
 
-/* ── DYNAMIC BOX + POLE POSITIONING ── */
+/* ── SINGLE positionElements FUNCTION ── */
 function positionElements() {
     const vh = window.innerHeight;
-    const floorH = 106;
+    const vw = window.innerWidth;
+    const isPortrait = vw < vh;
+    const isLandscapePhone = vh <= 500 && vw > vh;
 
-    // Mario stands at floorH from bottom = vh - floorH from top
-    // Mario height = 129px, so Mario top = vh - floorH - 129
+    // Portrait — let CSS handle everything
+    if (isPortrait) {
+        document.querySelectorAll('.box').forEach(box => {
+            box.style.position  = '';
+            box.style.float     = '';
+            box.style.top       = '';
+            box.style.left      = '';
+            box.style.marginTop = '';
+            box.style.width     = '';
+            box.style.minHeight = '';
+            box.style.height    = '';
+            box.style.maxHeight = '';
+            box.style.overflowY = '';
+            box.style.padding   = '';
+        });
+        const pole = document.getElementById('end-pole');
+        if (pole) pole.style.height = '';
+        return;
+    }
+
+    // Landscape phone — rotate message covers screen, do nothing
+    if (isLandscapePhone) return;
+
+    // Desktop/laptop — position boxes dynamically based on screen height
+    const floorH   = 106;
     const marioTop = vh - floorH - 129;
-
-    // Jump height: velocity-based physics
-    // velocity=14, gravity=1 → max height = sum of 14+13+...+1 = 105px
-    // For small screens use velocity=18 → max height = 171px
-    // We use velocity scaled to screen: aim for box bottom ~120px above Mario top
-    const jumpReach = vh < 700 ? 160 : 120;
-
-    // Box bottom should be just within jump reach
+    const jumpReach = vh < 600 ? 160
+                    : vh < 700 ? 150
+                    : vh < 900 ? 130
+                    : 120;
     const boxBottom = marioTop - jumpReach + 30;
-
-    // Box height: fill space above that, leaving 40px margin from top
     const boxHeight = Math.max(150, boxBottom - 40);
-
-    // Box top position
-    const boxTop = boxBottom - boxHeight;
+    const boxTop    = boxBottom - boxHeight;
 
     document.querySelectorAll('.box').forEach(box => {
         box.style.position  = 'absolute';
@@ -68,14 +85,13 @@ function positionElements() {
         box.style.width     = '280px';
     });
 
-    // Pole height: from floor to top of screen minus a bit
-    const poleHeight = vh - floorH - 20;
     const pole = document.getElementById('end-pole');
-    if (pole) pole.style.height = poleHeight + 'px';
+    if (pole) pole.style.height = (vh - floorH - 20) + 'px';
 }
 
 positionElements();
 window.addEventListener('resize', positionElements);
+window.addEventListener('orientationchange', () => setTimeout(positionElements, 300));
 
 /* ── RENDERING ── */
 function renderMario(yOffset = 0) {
@@ -164,11 +180,10 @@ function jump() {
     jumpSound.currentTime = 0;
     jumpSound.play();
 
-    // Scale jump velocity to screen height so Mario always reaches boxes
     const vh = window.innerHeight;
-    let velocity = vh < 600  ? 20
-                 : vh < 700  ? 18
-                 : vh < 900  ? 16
+    let velocity = vh < 600 ? 20
+                 : vh < 700 ? 18
+                 : vh < 900 ? 16
                  : 14;
 
     let gravity  = 1;
@@ -234,57 +249,6 @@ function finishLevel() {
     }, 1200);
 }
 
-function positionElements() {
-    const vh = window.innerHeight;
-    const vw = window.innerWidth;
-    const isPortrait = vw < vh;
-    const isLandscapePhone = vh < 500 && vw > vh;
-
-    // Portrait phone — reset everything, let CSS handle it
-    if (isPortrait) {
-        document.querySelectorAll('.box').forEach(box => {
-            box.style.position  = '';
-            box.style.float     = '';
-            box.style.top       = '';
-            box.style.left      = '';
-            box.style.marginTop = '';
-            box.style.width     = '';
-            box.style.minHeight = '';
-            box.style.height    = '';
-            box.style.maxHeight = '';
-            box.style.overflowY = '';
-            box.style.padding   = '';
-        });
-        document.getElementById('end-pole').style.height = '';
-        return;
-    }
-
-    // Landscape phone — rotate message is shown, do nothing
-    if (isLandscapePhone) return;
-
-    // Desktop/laptop — calculate positions dynamically
-    const floorH = 106;
-    const marioTop = vh - floorH - 129;
-    const jumpReach = vh < 600 ? 160 : vh < 700 ? 150 : vh < 900 ? 130 : 120;
-    const boxBottom = marioTop - jumpReach + 30;
-    const boxHeight = Math.max(150, boxBottom - 40);
-    const boxTop    = boxBottom - boxHeight;
-
-    document.querySelectorAll('.box').forEach(box => {
-        box.style.position  = 'absolute';
-        box.style.float     = 'none';
-        box.style.top       = boxTop + 'px';
-        box.style.marginTop = '0';
-        box.style.height    = boxHeight + 'px';
-        box.style.minHeight = boxHeight + 'px';
-        box.style.maxHeight = boxHeight + 'px';
-        box.style.overflowY = 'auto';
-        box.style.width     = '280px';
-    });
-
-    const pole = document.getElementById('end-pole');
-    if (pole) pole.style.height = (vh - floorH - 20) + 'px';
-}
 /* ── HIT ME ANIMATION ── */
 const randomizeInterval = setInterval(() => {
     const unrevealed = document.querySelectorAll('.box:not(.revealed)');
@@ -303,8 +267,8 @@ $(function () {
     $('body').attr('tabindex', '-1').focus();
 
     $("body").keydown(function (e) {
-        if      (e.key === 'ArrowLeft')              { direction = 'left';  renderMario(0); moveLeft(); }
-        else if (e.key === 'ArrowRight')             { direction = 'right'; renderMario(0); moveRight(); }
+        if      (e.key === 'ArrowLeft')                { direction = 'left';  renderMario(0); moveLeft(); }
+        else if (e.key === 'ArrowRight')               { direction = 'right'; renderMario(0); moveRight(); }
         else if (e.key === ' ' || e.key === 'ArrowUp') { jump(); }
     });
 
