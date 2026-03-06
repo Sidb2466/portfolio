@@ -186,8 +186,7 @@ function finishLevel() {
   const flag = document.querySelector('#end-pole .flag');
   if (!flag) return;
   flag.style.transition = 'top 0.6s';
-  const poleHeight = document.getElementById('end-pole').offsetHeight;
-  flag.style.top = (poleHeight - 80) + 'px';
+  flag.style.top = '400px';
   setTimeout(() => {
     flag.style.transition = 'none';
     flag.style.top = '0px';
