@@ -193,25 +193,26 @@ b{margin-bottom: 15px;font-size:30px;}
 
     #mario {
         bottom: 70px !important;
-        /* DO NOT touch width, height or background-size — causes flicker */
     }
 
     #scroll {
         bottom: 70px !important;
+        width: 2200px !important;
     }
 
     #end-pole {
-        height: 380px !important;
-        bottom: 70px !important;
+        height: 350px !important;
+        left: 2000px !important;
     }
 
     .box {
         top: 50% !important;
-        margin-top: -140px !important;  /* puts box top at ~47px, bottom at ~147px — reachable */
+        margin-top: -140px !important;
         width: 150px !important;
         min-height: 100px !important;
         padding: 10px !important;
         margin-left: 50px !important;
+        overflow: visible !important;
     }
 
     b {
@@ -223,6 +224,11 @@ b{margin-bottom: 15px;font-size:30px;}
     .box-content span {
         font-size: 12px !important;
     }
+
+    .box-placeholder {
+        font-size: 28px !important;
+    }
+}
 
     .box-placeholder {
         font-size: 28px !important;
