@@ -215,12 +215,13 @@ b { margin-bottom: 15px; font-size: 30px; }
 #rotate-msg span {
     font-size: 80px;
     display: block;
-    animation: spin 2s linear infinite;
+    animation: spin 2s ease-in-out infinite;
 }
 
 #rotate-msg p {
     display: block;
     margin-top: 20px;
+    color: white;
 }
 
 @keyframes spin {
@@ -230,7 +231,8 @@ b { margin-bottom: 15px; font-size: 30px; }
     100% { transform: rotate(0deg); }
 }
 
-@media (max-height: 500px) and (orientation: landscape) {
+/* Only show on PHONES in landscape — not laptops */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 900px) {
     #rotate-msg {
         display: flex !important;
     }
