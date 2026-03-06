@@ -126,7 +126,7 @@ function jump() {
     boxHitThisJump = false;
     jumpSound.currentTime = 0;
     jumpSound.play();
-    let velocity = 14;
+    let velocity = window.innerHeight < 700 ? 18 : 14;
     let gravity = 1;
     let position = 0;
     let maxJump = Infinity;
