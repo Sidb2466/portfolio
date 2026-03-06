@@ -205,16 +205,21 @@ b{margin-bottom: 15px;font-size:30px;}
     }
 
     #floor {
-        height: 80px !important;
+        height: 60px !important;
     }
 
     #mario {
-        bottom: 80px !important;
-        width: 40px !important;
-        height: 80px !important;
+        bottom: 60px !important;
+        width: 30px !important;
+        height: 60px !important;
+        background-size: 120px auto !important;
     }
 
     #scroll {
-        bottom: 80px !important;
+        bottom: 60px !important;
+    }
+
+    #end-pole {
+        height: 300px !important;
     }
 }
