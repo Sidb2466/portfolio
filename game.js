@@ -51,10 +51,9 @@ function moveTo(pos) {
         if (mario_x === -195) mario_x = 0;
     }
     if (scroll_x < -WORLD_WIDTH) {
-    scroll_x = $(window).width();
-    }
-    else if (scroll_x > $(window).width()) {
-    scroll_x = -WORLD_WIDTH;
+        scroll_x = $(window).width();
+    } else if (scroll_x > $(window).width()) {
+        scroll_x = -WORLD_WIDTH;
     }
     $('#scroll').css('left', scroll_x + 'px');
     $('#floor').css('background-position-x', floor_x + 'px');
@@ -74,18 +73,14 @@ function playMusic() {
 function moveLeft() {
     playMusic();
     if (!interval_left) {
-        interval_left = setInterval(function () {
-            moveTo('left');
-        }, 60);
+        interval_left = setInterval(function () { moveTo('left'); }, 60);
     }
 }
 
 function moveRight() {
     playMusic();
     if (!interval_right) {
-        interval_right = setInterval(function () {
-            moveTo('right');
-        }, 60);
+        interval_right = setInterval(function () { moveTo('right'); }, 60);
     }
 }
 
@@ -107,13 +102,11 @@ function hitBoxesDuringJump(marioRect) {
             marioRect.top <= boxRect.bottom + 5 &&
             marioRect.top >= boxRect.bottom - 30;
         if (horizontalHit && verticalHit) {
-            boxHitThisJump = true; 
+            boxHitThisJump = true;
             box.classList.add('hit');
             boxHitSound.currentTime = 0;
             boxHitSound.play();
-            setTimeout(() => {
-                box.classList.remove('hit');
-            }, 250);
+            setTimeout(() => { box.classList.remove('hit'); }, 250);
             if (box.classList.contains('revealed')) return;
             box.classList.add('revealed');
         }
@@ -162,67 +155,85 @@ function jump() {
 }
 
 function checkPoleHit() {
-  const pole = document.getElementById('end-pole');
-  if (!pole) return;
-  if (direction !== 'right') return;
-  const mario = document.getElementById('mario');
-  const m = mario.getBoundingClientRect();
-  const p = pole.getBoundingClientRect();
-  const hitFromRight =
-    m.left <= p.right &&    
-    m.right > p.left &&
-    m.bottom > p.top &&
-    m.top < p.bottom;
-  if (hitFromRight) finishLevel();
+    const pole = document.getElementById('end-pole');
+    if (!pole) return;
+    if (direction !== 'right') return;
+    const mario = document.getElementById('mario');
+    const m = mario.getBoundingClientRect();
+    const p = pole.getBoundingClientRect();
+    const hitFromRight =
+        m.left <= p.right &&
+        m.right > p.left &&
+        m.bottom > p.top &&
+        m.top < p.bottom;
+    if (hitFromRight) finishLevel();
 }
 
 let flagActive = false;
 
 function finishLevel() {
-  if (flagActive) return;
-  flagActive = true;
-  flagSound.currentTime = 0;
-  flagSound.play();
-  const flag = document.querySelector('#end-pole .flag');
-  if (!flag) return;
-  flag.style.transition = 'top 0.6s';
-  flag.style.top = '400px';
-  setTimeout(() => {
-    flag.style.transition = 'none';
-    flag.style.top = '0px';
-    flagActive = false;
-  }, 1200);
+    if (flagActive) return;
+    flagActive = true;
+    flagSound.currentTime = 0;
+    flagSound.play();
+    const flag = document.querySelector('#end-pole .flag');
+    if (!flag) return;
+    flag.style.transition = 'top 0.6s';
+    // Dynamically calculate drop so flag stops at floor, not below it
+    const poleHeight = document.getElementById('end-pole').offsetHeight;
+    flag.style.top = (poleHeight - 80) + 'px';
+    setTimeout(() => {
+        flag.style.transition = 'none';
+        flag.style.top = '0px';
+        flagActive = false;
+    }, 1200);
 }
 
-function randomizeHitMePositions() {
-    document.querySelectorAll('.box:not(.revealed)').forEach(box => {
+const randomizeInterval = setInterval(() => {
+    const unrevealed = document.querySelectorAll('.box:not(.revealed)');
+    if (unrevealed.length === 0) {
+        clearInterval(randomizeInterval);
+        return;
+    }
+    unrevealed.forEach(box => {
         const placeholder = box.querySelector('.box-placeholder');
         if (!placeholder) return;
-
         const boxWidth = box.clientWidth;
         const boxHeight = box.clientHeight;
-
         const textWidth = placeholder.offsetWidth;
         const textHeight = placeholder.offsetHeight;
-
-        const maxX = boxWidth - textWidth;
-        const maxY = boxHeight - textHeight;
-
+        const maxX = Math.max(0, boxWidth - textWidth);
+        const maxY = Math.max(0, boxHeight - textHeight);
         const x = Math.random() * maxX;
         const y = Math.random() * maxY;
-
         placeholder.style.transform = `translate(${x}px, ${y}px)`;
     });
-}
+}, 900);
 
 function positionBoxesLandscape() {
-    if (window.innerHeight > 500 || window.innerWidth < window.innerHeight) return;
-    
+    if (window.innerHeight > 500 || window.innerWidth < window.innerHeight) {
+        // Reset styles when going back to portrait
+        document.querySelectorAll('.box').forEach(box => {
+            box.style.position = '';
+            box.style.float = '';
+            box.style.top = '';
+            box.style.left = '';
+            box.style.marginTop = '';
+            box.style.width = '';
+            box.style.minHeight = '';
+            box.style.height = '';
+            box.style.maxHeight = '';
+            box.style.overflowY = '';
+            box.style.padding = '';
+        });
+        return;
+    }
+
     const boxes = document.querySelectorAll('.box');
     let xPos = 80;
     const yPos = window.innerHeight * 0.08;
-    const boxHeight = window.innerHeight * 0.55;
-    
+    const boxHeight = window.innerHeight * 0.58;
+
     boxes.forEach(box => {
         box.style.position = 'absolute';
         box.style.float = 'none';
@@ -238,6 +249,7 @@ function positionBoxesLandscape() {
         xPos += 220;
     });
 }
+
 positionBoxesLandscape();
 window.addEventListener('resize', positionBoxesLandscape);
 window.addEventListener('orientationchange', () => {
@@ -245,63 +257,63 @@ window.addEventListener('orientationchange', () => {
 });
 
 $(function () {
-    setInterval(randomizeHitMePositions, 900);
     $('body').attr('tabindex', '-1').focus();
+
     $("body").keydown(function (e) {
-    if (e.key === 'ArrowLeft') {
+        if (e.key === 'ArrowLeft') {
+            direction = 'left';
+            renderMario(0);
+            moveLeft();
+        } else if (e.key === 'ArrowRight') {
+            direction = 'right';
+            renderMario(0);
+            moveRight();
+        } else if (e.key === ' ' || e.key === 'ArrowUp') {
+            jump();
+        }
+    });
+
+    $("body").keyup(function (e) {
+        if (e.keyCode == 37 || e.keyCode == 39) stopMove();
+    });
+
+    $('#btn_left').on('mousedown touchstart', function () {
         direction = 'left';
         renderMario(0);
         moveLeft();
-    }
-    else if (e.key === 'ArrowRight') {
+    });
+
+    $('#btn_right').on('mousedown touchstart', function () {
         direction = 'right';
         renderMario(0);
         moveRight();
-    }
-    else if (e.key === ' ' || e.key === 'ArrowUp') {
-        jump();
-    }
     });
-    $("body").keyup(function (e) {
-    if (e.keyCode == 37 || e.keyCode == 39) {
-        stopMove();
-    }
-    });
-    $('#btn_left').on('mousedown touchstart', function () {
-    direction = 'left';
-    renderMario(0);
-    moveLeft();
-    });
-    $('#btn_right').on('mousedown touchstart', function () {
-    direction = 'right';
-    renderMario(0);
-    moveRight();
-    });
+
     $('#btn_up').on('mousedown touchstart', function () {
-    jump();
+        jump();
     });
+
     $('#btn_left, #btn_right').on('mouseup touchend', function () {
         stopMove();
     });
+
     $('#music-btn').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    const music = document.getElementById("bg_music");
-    if (music_play) {
-        music.pause();
-        music_play = false;
-        $(this).text('Music: OFF');
-    } else {
-        music.volume = 0.4;
-        music.play();
-        music_play = true;
-        $(this).text('Music: ON');
-    }
-    $(document).on('keydown', function (e) {
-    if (e.code === 'Space') {
         e.preventDefault();
-    }
+        e.stopPropagation();
+        const music = document.getElementById("bg_music");
+        if (music_play) {
+            music.pause();
+            music_play = false;
+            $(this).text('Music: OFF');
+        } else {
+            music.volume = 0.4;
+            music.play();
+            music_play = true;
+            $(this).text('Music: ON');
+        }
     });
-    
-});
+
+    $(document).on('keydown', function (e) {
+        if (e.code === 'Space') e.preventDefault();
+    });
 });
