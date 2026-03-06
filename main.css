@@ -198,6 +198,7 @@ b{margin-bottom: 15px;font-size:30px;}
     #scroll {
         bottom: 70px !important;
         width: 2200px !important;
+        overflow: visible !important;
     }
 
     #end-pole {
@@ -224,11 +225,6 @@ b{margin-bottom: 15px;font-size:30px;}
     .box-content span {
         font-size: 12px !important;
     }
-
-    .box-placeholder {
-        font-size: 28px !important;
-    }
-}
 
     .box-placeholder {
         font-size: 28px !important;
