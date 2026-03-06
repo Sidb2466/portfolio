@@ -126,8 +126,8 @@ function jump() {
     boxHitThisJump = false;
     jumpSound.currentTime = 0;
     jumpSound.play();
-    let velocity = window.innerHeight < 700 ? 18 : 14;
-    let gravity = 1;
+    let velocity = Math.ceil(Math.sqrt(window.innerHeight / 2)) + 2;
+    let gravity = velocity / 14;
     let position = 0;
     let maxJump = Infinity;
     const mario = document.getElementById('mario');
